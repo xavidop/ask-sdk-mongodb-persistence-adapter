@@ -38,7 +38,7 @@ jobs:
       uses: actions/checkout@v2
     - run: |
         npm install;
-        npm run test
+        npm run test;
   codecov:
     runs-on: ubuntu-latest
     name: Code Coverage
@@ -56,12 +56,15 @@ jobs:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   publish:
     runs-on: ubuntu-latest
+    name: Publish
+    needs: codecov
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: 10
+          node-version: 12
       - run: npm install
+      - run: npm run build
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
