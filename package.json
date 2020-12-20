@@ -13,7 +13,8 @@
     "clean": "rm -rf ./dist",
     "reinstall": "rm -rf ./node_modules && npm install",
     "coverage": "nyc --clean jest --forceExit --coverage --reporter=text-lcov",
-    "codecov": "codecov coverage/lcov.info"
+    "codecov": "codecov coverage/lcov.info",
+    "doc": "typedoc"
   },
   "author": "Xavier Portilla Edo",
   "license": "Apache-2.0",
@@ -45,6 +46,7 @@
     "jest": "^26.6.3",
     "nyc": "^14.1.1",
     "ts-jest": "^26.4.4",
+    "typedoc": "^0.19.2",
     "typescript": "^4.1.2"
   },
   "repository": "github:xavidop/ask-sdk-mongodb-persistence-adapter",

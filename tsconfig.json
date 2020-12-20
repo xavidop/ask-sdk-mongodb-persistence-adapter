@@ -12,5 +12,11 @@
   },
   "include": [
     "lib"
-  ]
+  ],
+    "typedocOptions": {
+      "inputFiles": ["./lib/attributes/"],
+        "mode": "modules",
+        "out": "docs",
+        "media": "media/"
+    }
 }

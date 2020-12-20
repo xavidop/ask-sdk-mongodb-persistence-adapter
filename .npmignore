@@ -1,5 +1,6 @@
 coverage/
 doc/
+docs/
 lib/
 node_modules/
 tst/

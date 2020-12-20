@@ -6,9 +6,13 @@
 [![npm license](https://img.shields.io/npm/l/ask-sdk-mongodb-persistence-adapter.svg)](https://npmjs.org/package/ask-sdk-mongodb-persistence-adapter)
 [![npm type definitions](https://img.shields.io/npm/types/ask-sdk-mongodb-persistence-adapter)](https://npmjs.org/package/ask-sdk-mongodb-persistence-adapter)
 ![npm](https://img.shields.io/npm/dt/ask-sdk-mongodb-persistence-adapter)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/70685902-9413-4842-8a33-7eaf1db4f132/deploy-status)](https://app.netlify.com/sites/ask-sdk-mongodb-persistence-adapter/deploys)
 ![GitHub issues](https://img.shields.io/github/issues/xavidop/ask-sdk-mongodb-persistence-adapter)
 
 ASK SDK MongoDB Persistence Adapter package contains implementation of persistence adapter in Core SDK ('ask-sdk-core') based on AWS SDK.
+
+![image](media/image.jpg)
+
 
 ## What is ASK SDK MongoDB Persistence Adapter
 
