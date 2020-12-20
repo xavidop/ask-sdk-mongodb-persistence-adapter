@@ -1,0 +1,55 @@
+on: [push]
+
+jobs:
+  checkout:
+    runs-on: ubuntu-latest
+    name: Checkout
+    steps:
+      # To use this repository's private action,
+      # you must check out the repository
+      - name: Checkout
+        uses: actions/checkout@v2
+      - run: |
+          chmod +x -R ./test;
+          ls -la
+
+  install:
+    runs-on: ubuntu-latest
+    name: Install
+    needs: checkout
+    steps:
+      # To use this repository's private action,
+      # you must check out the repository
+    - name: Checkout
+      uses: actions/checkout@v2
+    - run: |
+        cd lambda;
+        npm install
+
+  build:
+    runs-on: ubuntu-latest
+    name: Build
+    needs: install
+    steps:
+    # To use this repository's private action,
+    # you must check out the repository
+      # To use this repository's private action,
+      # you must check out the repository
+    - name: Checkout
+      uses: actions/checkout@v2
+    - run: |
+        cd lambda;
+        npm install;
+        npm run lint;
+  test:
+    runs-on: ubuntu-latest
+    name: Test
+    needs: build
+    steps:
+    # To use this repository's private action,
+    # you must check out the repository
+    - name: Checkout
+      uses: actions/checkout@v2
+    - run: |
+        npm install;
+        npm run test
