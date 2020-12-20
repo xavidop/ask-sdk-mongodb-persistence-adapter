@@ -63,7 +63,7 @@ export const PartitionKeyGenerators = {
             PartitionKeyGenerators.throwException('user id');
         }
 
-        return requestEnvelope.context.System.user.userId;
+        return PartitionKeyGenerators.getSystemUser(requestEnvelope).userId;
     },
 
     /**
@@ -78,7 +78,7 @@ export const PartitionKeyGenerators = {
             PartitionKeyGenerators.throwException('device id');
         }
 
-        return requestEnvelope.context.System.device.deviceId;
+        return PartitionKeyGenerators.getSystemDevice(requestEnvelope).deviceId;
     },
 
     /**
