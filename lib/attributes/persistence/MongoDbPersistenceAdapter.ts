@@ -47,6 +47,10 @@ export class MongoDBPersistenceAdapter implements PersistenceAdapter {
     private async getMongoDBClient() {
         if (!this.mongoDBClient){
             this.mongoDBClient = await MongoClient.connect(this.mongoURI, { useUnifiedTopology: true });
+        } else {
+            if (!this.mongoDBClient.isConnected()) {
+                await this.mongoDBClient.connect();
+            }
         }
         this.mongoDB = this.mongoDBClient.db(this.collectionName);
     }

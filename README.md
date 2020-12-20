@@ -6,8 +6,9 @@
 [![npm license](https://img.shields.io/npm/l/ask-sdk-mongodb-persistence-adapter.svg)](https://npmjs.org/package/ask-sdk-mongodb-persistence-adapter)
 [![npm type definitions](https://img.shields.io/npm/types/ask-sdk-mongodb-persistence-adapter)](https://npmjs.org/package/ask-sdk-mongodb-persistence-adapter)
 ![npm](https://img.shields.io/npm/dt/ask-sdk-mongodb-persistence-adapter)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/70685902-9413-4842-8a33-7eaf1db4f132/deploy-status)](https://app.netlify.com/sites/ask-sdk-mongodb-persistence-adapter/deploys)
-![GitHub issues](https://img.shields.io/github/issues/xavidop/ask-sdk-mongodb-persistence-adapter)
+[![Docs](https://api.netlify.com/api/v1/badges/70685902-9413-4842-8a33-7eaf1db4f132/deploy-status)](https://ask-sdk-mongodb-persistence-adapter.netlify.app/)
+[![GitHub issues](https://img.shields.io/github/issues/xavidop/ask-sdk-mongodb-persistence-adapter)](https://github.com/xavidop/ask-sdk-mongodb-persistence-adapter/issues)
+![David](https://img.shields.io/david/xavidop/ask-sdk-mongodb-persistence-adapter)
 
 ASK SDK MongoDB Persistence Adapter package contains implementation of persistence adapter in Core SDK ('ask-sdk-core') based on AWS SDK.
 
@@ -27,7 +28,72 @@ npm install --save ask-sdk-mongodb-persistence-adapter
 
 ## Usage and Getting Started
 
-TODO
+You can find all the documentation [here](https://ask-sdk-mongodb-persistence-adapter.netlify.app/).
+
+How to create a instance of `MongoDBPersistenceAdapter` and `PartitionKeyGenerator`:
+
+1. Passing the MongoDB URL connection as a parameter:
+
+```javascript
+let { MongoDBPersistenceAdapter } = require('ask-sdk-mongodb-persistence-adapter');
+
+let options = {
+  collectionName: 'myCollection',
+  mongoURI: 'mongodb+srv://<username>:<password>@<cluster>.mongodb.net/',
+  partitionKeyGenerator: (requestEnvelope) => {
+    const userId = Alexa.getUserId(requestEnvelope);
+    return userId.substr(userId.lastIndexOf(".") + 1);
+  }
+}
+
+let adapter =  new MongoDBPersistenceAdapter(options);
+```
+
+2. Passing [MongoClient](https://mongodb.github.io/node-mongodb-native/3.6/api/MongoClient.html) as a parameter. Using this, you have to add [`mongodb` npm package](https://www.npmjs.com/package/mongodb):
+
+```javascript
+let { MongoDBPersistenceAdapter } = require('ask-sdk-mongodb-persistence-adapter');
+let { MongoClient } = require('mongodb');
+
+let mongoClient = new MongoClient('mongodb+srv://<username>:<password>@<cluster>.mongodb.net/')
+
+let options = {
+  collectionName: 'myCollection',
+  mongoDBClient: mongoClient,
+  partitionKeyGenerator: (requestEnvelope) => {
+    const userId = Alexa.getUserId(requestEnvelope);
+    return userId.substr(userId.lastIndexOf(".") + 1);
+  }
+}
+
+let adapter =  new MongoDBPersistenceAdapter(options);
+
+```
+
+finally we have to add this new adapter to the `SkillBuilders` object with the method `withPersistenceAdapter`:
+
+
+```javascript
+
+exports.handler = Alexa.SkillBuilders.custom()
+    .addRequestHandlers(
+        LaunchRequestHandler,
+        HelloWorldIntentHandler,
+        HelpIntentHandler,
+        CancelAndStopIntentHandler,
+        FallbackIntentHandler,
+        SessionEndedRequestHandler,
+        IntentReflectorHandler)
+    .addErrorHandlers(
+        ErrorHandler)
+    .withPersistenceAdapter(adapter)
+    .lambda();
+```
+
+Check the `MongoDBPersistenceAdapter` full specification [here](https://ask-sdk-mongodb-persistence-adapter.netlify.app/classes/_mongodbpersistenceadapter_.mongodbpersistenceadapter.html#constructor).
+
+Check the `PartitionKeyGenerator` full specification [here](https://ask-sdk-mongodb-persistence-adapter.netlify.app/modules/_partitionkeygenerators_.html#partitionkeygenerator).
+
 
 ## Usage with TypeScript
 The ASK SDK MongoDB Persistence Adapter package for Node.js bundles TypeScript definition files for use in TypeScript projects and to support tools that can read .d.ts files. Our goal is to keep these TypeScript definition files updated with each release for any public api.

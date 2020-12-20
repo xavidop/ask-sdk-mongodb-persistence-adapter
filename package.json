@@ -1,6 +1,6 @@
 {
   "name": "ask-sdk-mongodb-persistence-adapter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "MongoDB based implementation package of PersistenceAdapter interface for Node.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
