@@ -22,15 +22,24 @@ export type PartitionKeyGenerator = (requestEnvelope: RequestEnvelope) => string
  * Object containing implementations of {@link PartitionKeyGenerator}.
  */
 export const PartitionKeyGenerators = {
+
+    checSystemExist(requestEnvelope: RequestEnvelope): boolean{
+        if (requestEnvelope
+            && requestEnvelope.context
+            && requestEnvelope.context.System){
+            return true;
+        } else {
+            return false;
+        }
+    },
+
     /**
      * Gets attributes id using user id.
      * @param {RequestEnvelope} requestEnvelope
      * @returns {string}
      */
     userId(requestEnvelope: RequestEnvelope): string {
-        if (!(requestEnvelope
-              && requestEnvelope.context
-              && requestEnvelope.context.System
+        if (!(PartitionKeyGenerators.checSystemExist(requestEnvelope)
               && requestEnvelope.context.System.user
               && requestEnvelope.context.System.user.userId)) {
             throw createAskSdkError(
@@ -48,9 +57,7 @@ export const PartitionKeyGenerators = {
      * @returns {string}
      */
     deviceId(requestEnvelope: RequestEnvelope): string {
-        if (!(requestEnvelope
-              && requestEnvelope.context
-              && requestEnvelope.context.System
+        if (!(PartitionKeyGenerators.checSystemExist(requestEnvelope)
               && requestEnvelope.context.System.device
               && requestEnvelope.context.System.device.deviceId)) {
             throw createAskSdkError(
@@ -69,9 +76,7 @@ export const PartitionKeyGenerators = {
      * @returns {string}
      */
     personId(requestEnvelope: RequestEnvelope): string {
-        if (requestEnvelope
-              && requestEnvelope.context
-              && requestEnvelope.context.System
+        if (PartitionKeyGenerators.checSystemExist(requestEnvelope)
               && requestEnvelope.context.System.person
               && requestEnvelope.context.System.person.personId) {
             return requestEnvelope.context.System.person.personId;
