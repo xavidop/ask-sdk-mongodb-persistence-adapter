@@ -28,16 +28,17 @@ describe('MongoDBPersistenceAdapter', () => {
     requestEnvelope.context.System.device.deviceId = 'deviceId';
     requestEnvelope.context.System.user.userId = 'userId';
 
-    it('should be able to get an item from table', async () => {
+    it('should be able to get an item from table', async (done) => {
 
         const adapter = new MongoDBPersistenceAdapter(options);
 
         const result = await adapter.getAttributes(requestEnvelope);
 
         expect(result).deep.equal({});
+        done();
     });
 
-    it('should be able to put an item to table', async () => {
+    it('should be able to put an item to table', async (done) => {
         const adapter = new MongoDBPersistenceAdapter(options);
 
         await adapter.saveAttributes(requestEnvelope, item);
@@ -45,18 +46,20 @@ describe('MongoDBPersistenceAdapter', () => {
         const result = await adapter.getAttributes(requestEnvelope);
 
         expect(result).deep.equal(item);
+        done();
     });
 
-    it('should be able to delete an item from table', async () => {
+    it('should be able to delete an item from table', async (done) => {
         const adapter = new MongoDBPersistenceAdapter(options);
 
         await adapter.deleteAttributes(requestEnvelope);
         const result = await adapter.getAttributes(requestEnvelope);
 
         expect(result).deep.equal({});
+        done();
     });
 
-    it('should return an empty object when getting item that does not exist in table', async () => {
+    it('should return an empty object when getting item that does not exist in table', async (done) => {
         const adapter = new MongoDBPersistenceAdapter(options);
 
         const mockRequestEnvelope = JsonProvider.requestEnvelope();
@@ -64,5 +67,6 @@ describe('MongoDBPersistenceAdapter', () => {
 
         const result = await adapter.getAttributes(mockRequestEnvelope);
         expect(result).deep.equal({});
+        done();
     });
 });
