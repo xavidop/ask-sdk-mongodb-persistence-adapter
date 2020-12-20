@@ -23,7 +23,7 @@ export type PartitionKeyGenerator = (requestEnvelope: RequestEnvelope) => string
  */
 export const PartitionKeyGenerators = {
 
-    checSystemExist(requestEnvelope: RequestEnvelope): boolean{
+    checkSystemExists(requestEnvelope: RequestEnvelope): boolean{
         if (requestEnvelope
             && requestEnvelope.context
             && requestEnvelope.context.System){
@@ -32,7 +32,18 @@ export const PartitionKeyGenerators = {
             return false;
         }
     },
+    getSystem(requestEnvelope: RequestEnvelope): any{
+        return requestEnvelope.context.System;
 
+    },
+    getSystemUser(requestEnvelope: RequestEnvelope): any{
+        return PartitionKeyGenerators.getSystem(requestEnvelope).user;
+
+    },
+    getSystemDevice(requestEnvelope: RequestEnvelope): any{
+        return PartitionKeyGenerators.getSystem(requestEnvelope).device;
+
+    },
     throwException(partitionUsed: string): void{
         throw createAskSdkError(
             'PartitionKeyGenerators',
@@ -46,9 +57,9 @@ export const PartitionKeyGenerators = {
      * @returns {string}
      */
     userId(requestEnvelope: RequestEnvelope): string {
-        if (!(PartitionKeyGenerators.checSystemExist(requestEnvelope)
-              && requestEnvelope.context.System.user
-              && requestEnvelope.context.System.user.userId)) {
+        if (!(PartitionKeyGenerators.checkSystemExists(requestEnvelope)
+              && PartitionKeyGenerators.getSystemUser(requestEnvelope)
+              && PartitionKeyGenerators.getSystemUser(requestEnvelope).userId)) {
             PartitionKeyGenerators.throwException('user id');
         }
 
@@ -61,9 +72,9 @@ export const PartitionKeyGenerators = {
      * @returns {string}
      */
     deviceId(requestEnvelope: RequestEnvelope): string {
-        if (!(PartitionKeyGenerators.checSystemExist(requestEnvelope)
-              && requestEnvelope.context.System.device
-              && requestEnvelope.context.System.device.deviceId)) {
+        if (!(PartitionKeyGenerators.checkSystemExists(requestEnvelope)
+              && PartitionKeyGenerators.getSystemDevice(requestEnvelope)
+              && PartitionKeyGenerators.getSystemDevice(requestEnvelope).deviceId)) {
             PartitionKeyGenerators.throwException('device id');
         }
 
@@ -77,7 +88,7 @@ export const PartitionKeyGenerators = {
      * @returns {string}
      */
     personId(requestEnvelope: RequestEnvelope): string {
-        if (PartitionKeyGenerators.checSystemExist(requestEnvelope)
+        if (PartitionKeyGenerators.checkSystemExists(requestEnvelope)
               && requestEnvelope.context.System.person
               && requestEnvelope.context.System.person.personId) {
             return requestEnvelope.context.System.person.personId;
