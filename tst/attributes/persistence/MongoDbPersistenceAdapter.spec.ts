@@ -11,14 +11,13 @@
  */
 import { expect } from 'chai';
 import { MongoDBPersistenceAdapter } from '../../../lib/attributes/persistence/MongoDbPersistenceAdapter';
-import { MongoMemoryServer } from 'mongodb-memory-server';
 import { JsonProvider } from '../../mocks/JsonProvider';
 
 describe('MongoDBPersistenceAdapter', () => {
-    const mongod = new MongoMemoryServer();
 
     const options = {
-        collectionName: 'alexa'
+        collectionName: 'alexa',
+        mongoURI: process.env.MONGO_URL
     };
 
     const item = {
@@ -30,8 +29,7 @@ describe('MongoDBPersistenceAdapter', () => {
     requestEnvelope.context.System.user.userId = 'userId';
 
     it('should be able to get an item from table', async () => {
-        const uri = await mongod.getUri();
-        options['mongoURI'] = uri;
+
         const adapter = new MongoDBPersistenceAdapter(options);
 
         const result = await adapter.getAttributes(requestEnvelope);

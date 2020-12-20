@@ -4,3 +4,6 @@ doc/
 node_modules/
 package-lock.json
 build
+.nyc_output
+coverage.lcov
+globalConfig.json

@@ -6,3 +6,8 @@ tst/
 package-lock.json
 tsconfig.json
 .eslintrc.json
+jest.config.js
+jest-mongodb-config.js
+.nyc_output
+coverage.lcov
+globalConfig.json
