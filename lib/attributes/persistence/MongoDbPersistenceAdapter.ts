@@ -82,9 +82,7 @@ export class MongoDBPersistenceAdapter implements PersistenceAdapter {
 
         const saved = await this.mongoDB.collection(this.collectionName).updateOne({ id: attributesId }, { $set: { id: attributesId, attributes } }, { upsert: true });
 
-        if (!saved.result.ok) {
-            throw createAskSdkError(this.constructor.name, `Could not save item (${attributesId}) to table (${this.collectionName})`);
-        }
+        this.checkResult(saved, attributesId);
     }
 
     /**
@@ -98,7 +96,11 @@ export class MongoDBPersistenceAdapter implements PersistenceAdapter {
 
         const deleted = await this.mongoDB.collection(this.collectionName).deleteOne({ id: attributesId });
 
-        if (!deleted.result.ok) {
+        this.checkResult(deleted, attributesId);
+    }
+
+    private checkResult(data, attributesId) {
+        if (!data.result.ok) {
             throw createAskSdkError(this.constructor.name, `Could not delete item (${attributesId}) to table (${this.collectionName})`);
         }
     }

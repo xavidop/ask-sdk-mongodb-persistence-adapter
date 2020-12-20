@@ -33,6 +33,13 @@ export const PartitionKeyGenerators = {
         }
     },
 
+    throwException(partitionUsed: string): void{
+        throw createAskSdkError(
+            'PartitionKeyGenerators',
+            `Cannot retrieve ${partitionUsed} from request envelope!`,
+        );
+    },
+
     /**
      * Gets attributes id using user id.
      * @param {RequestEnvelope} requestEnvelope
@@ -42,10 +49,7 @@ export const PartitionKeyGenerators = {
         if (!(PartitionKeyGenerators.checSystemExist(requestEnvelope)
               && requestEnvelope.context.System.user
               && requestEnvelope.context.System.user.userId)) {
-            throw createAskSdkError(
-                'PartitionKeyGenerators',
-                'Cannot retrieve user id from request envelope!',
-            );
+            PartitionKeyGenerators.throwException('user id');
         }
 
         return requestEnvelope.context.System.user.userId;
@@ -60,10 +64,7 @@ export const PartitionKeyGenerators = {
         if (!(PartitionKeyGenerators.checSystemExist(requestEnvelope)
               && requestEnvelope.context.System.device
               && requestEnvelope.context.System.device.deviceId)) {
-            throw createAskSdkError(
-                'PartitionKeyGenerators',
-                'Cannot retrieve device id from request envelope!',
-            );
+            PartitionKeyGenerators.throwException('device id');
         }
 
         return requestEnvelope.context.System.device.deviceId;
