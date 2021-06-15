@@ -26,6 +26,7 @@ import {
  */
 export class MongoDBPersistenceAdapter implements PersistenceAdapter {
     protected collectionName: string;
+    protected databaseName: string;
     protected mongoURI: string;
     protected mongoDBClient: MongoClient;
     protected partitionKeyGenerator: PartitionKeyGenerator;
@@ -33,11 +34,13 @@ export class MongoDBPersistenceAdapter implements PersistenceAdapter {
 
     constructor(config: {
         collectionName: string,
-        mongoURI? : string,
-        mongoDBClient? : MongoClient,
-        partitionKeyGenerator? : PartitionKeyGenerator;
+        databaseName?: string,
+        mongoURI?: string,
+        mongoDBClient?: MongoClient,
+        partitionKeyGenerator?: PartitionKeyGenerator;
     }) {
         this.collectionName = config.collectionName;
+        this.databaseName = config.databaseName;
         this.mongoURI = config.mongoURI;
         this.mongoDBClient = config.mongoDBClient;
         this.partitionKeyGenerator = config.partitionKeyGenerator ? config.partitionKeyGenerator : PartitionKeyGenerators.personId;
@@ -46,13 +49,14 @@ export class MongoDBPersistenceAdapter implements PersistenceAdapter {
 
     private async getMongoDBClient() {
         if (!this.mongoDBClient){
-            this.mongoDBClient = await MongoClient.connect(this.mongoURI, { useUnifiedTopology: true });
+            this.mongoDBClient = await MongoClient.connect(this.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
         } else {
             if (!this.mongoDBClient.isConnected()) {
                 await this.mongoDBClient.connect();
             }
         }
-        this.mongoDB = this.mongoDBClient.db(this.collectionName);
+
+        this.mongoDB = this.databaseName ? this.mongoDBClient.db(this.databaseName) : this.mongoDBClient.db(this.collectionName);
     }
 
     /**
