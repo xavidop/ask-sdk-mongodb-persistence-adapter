@@ -1,0 +1,7 @@
+[build]
+ command = "yarn doc"
+ publish = "docs"
+
+[build.environment]
+  NODE_ENV = "production"
+  NODE_VERSION = "16"

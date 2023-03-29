@@ -1,7 +1,4 @@
-[![codecov](https://codecov.io/gh/xavidop/ask-sdk-mongodb-persistence-adapter/branch/main/graph/badge.svg?token=C8KSGME1OG)](https://codecov.io/gh/xavidop/ask-sdk-mongodb-persistence-adapter)
 ![.github/workflows/main.yml](https://github.com/xavidop/ask-sdk-mongodb-persistence-adapter/workflows/.github/workflows/main.yml/badge.svg?branch=main)
-[![Maintainability](https://api.codeclimate.com/v1/badges/f8a3c3da83264e28c7cc/maintainability)](https://codeclimate.com/github/xavidop/ask-sdk-mongodb-persistence-adapter/maintainability)
-![Technical debt](https://img.shields.io/codeclimate/tech-debt/xavidop/ask-sdk-mongodb-persistence-adapter)
 [![npm version](https://img.shields.io/npm/v/ask-sdk-mongodb-persistence-adapter.svg)](https://npmjs.org/package/ask-sdk-mongodb-persistence-adapter)
 [![npm license](https://img.shields.io/npm/l/ask-sdk-mongodb-persistence-adapter.svg)](https://npmjs.org/package/ask-sdk-mongodb-persistence-adapter)
 [![npm type definitions](https://img.shields.io/npm/types/ask-sdk-mongodb-persistence-adapter)](https://npmjs.org/package/ask-sdk-mongodb-persistence-adapter)
