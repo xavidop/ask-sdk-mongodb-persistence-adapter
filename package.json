@@ -1,6 +1,6 @@
 {
   "name": "ask-sdk-mongodb-persistence-adapter",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "MongoDB based implementation package of PersistenceAdapter interface for Node.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -48,6 +48,12 @@
     "ts-jest": "^26.4.4",
     "typedoc": "^0.19.2",
     "typescript": "^4.1.2"
+  },
+"config": {
+    "mongodbMemoryServer": {
+      "version": "latest",
+      "debug": "0"
+    }
   },
   "repository": "github:xavidop/ask-sdk-mongodb-persistence-adapter",
   "bugs": "https://github.com/xavidop/ask-sdk-mongodb-persistence-adapter/issues",

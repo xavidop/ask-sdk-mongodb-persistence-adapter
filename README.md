@@ -35,16 +35,17 @@ How to create a instance of `MongoDBPersistenceAdapter` and `PartitionKeyGenerat
 1. Passing the MongoDB URL connection as a parameter:
 
 ```javascript
-let { MongoDBPersistenceAdapter } = require('ask-sdk-mongodb-persistence-adapter');
+let { MongoDBPersistenceAdapter, PartitionKeyGenerators } = require('ask-sdk-mongodb-persistence-adapter');
+
 
 let options = {
+  databaseName: 'myDb',
   collectionName: 'myCollection',
   mongoURI: 'mongodb+srv://<username>:<password>@<cluster>.mongodb.net/',
   partitionKeyGenerator: (requestEnvelope) => {
-    const userId = Alexa.getUserId(requestEnvelope);
-    return userId.substr(userId.lastIndexOf(".") + 1);
-  }
-}
+    return PartitionKeyGenerators.userId(requestEnvelope);
+  },
+};
 
 let adapter =  new MongoDBPersistenceAdapter(options);
 ```
@@ -52,18 +53,18 @@ let adapter =  new MongoDBPersistenceAdapter(options);
 2. Passing [MongoClient](https://mongodb.github.io/node-mongodb-native/3.6/api/MongoClient.html) as a parameter. Using this, you have to add [`mongodb` npm package](https://www.npmjs.com/package/mongodb):
 
 ```javascript
-let { MongoDBPersistenceAdapter } = require('ask-sdk-mongodb-persistence-adapter');
+let { MongoDBPersistenceAdapter, PartitionKeyGenerators } = require('ask-sdk-mongodb-persistence-adapter');
 let { MongoClient } = require('mongodb');
 
 let mongoClient = new MongoClient('mongodb+srv://<username>:<password>@<cluster>.mongodb.net/')
 
 let options = {
+  databaseName: 'myDb',
   collectionName: 'myCollection',
   mongoDBClient: mongoClient,
   partitionKeyGenerator: (requestEnvelope) => {
-    const userId = Alexa.getUserId(requestEnvelope);
-    return userId.substr(userId.lastIndexOf(".") + 1);
-  }
+    return PartitionKeyGenerators.userId(requestEnvelope);
+  },
 }
 
 let adapter =  new MongoDBPersistenceAdapter(options);

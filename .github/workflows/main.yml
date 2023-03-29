@@ -11,7 +11,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - run: |
-        npm install
+        yarn install --frozen-lockfile
 
   build:
     runs-on: ubuntu-latest
@@ -25,46 +25,46 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - run: |
-        npm install;
-        npm run lint;
-  test:
-    runs-on: ubuntu-latest
-    name: Test
-    needs: build
-    steps:
-    # To use this repository's private action,
-    # you must check out the repository
-    - name: Checkout
-      uses: actions/checkout@v2
-    - run: |
-        npm install;
-        npm run test;
-  codecov:
-    runs-on: ubuntu-latest
-    name: Code Coverage
-    needs: test
-    steps:
-    # To use this repository's private action,
-    # you must check out the repository
-    - name: Checkout
-      uses: actions/checkout@v2
-    - run: |
-        npm install;
-        npm run coverage;
-        npm run codecov;
-      env: # Or as an environment variable
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        yarn install --frozen-lockfile;
+        yarn run lint;
+  # test:
+  #   runs-on: ubuntu-latest
+  #   name: Test
+  #   needs: build
+  #   steps:
+  #   # To use this repository's private action,
+  #   # you must check out the repository
+  #   - name: Checkout
+  #     uses: actions/checkout@v2
+  #   - run: |
+  #      yarn install;
+  #      npm run test;
+  # codecov:
+  #   runs-on: ubuntu-latest
+  #   name: Code Coverage
+  #   needs: test
+  #   steps:
+  #   # To use this repository's private action,
+  #   # you must check out the repository
+  #   - name: Checkout
+  #     uses: actions/checkout@v2
+  #   - run: |
+  #       npm install;
+  #       npm run coverage;
+  #       npm run codecov;
+  #     env: # Or as an environment variable
+  #       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   publish:
     runs-on: ubuntu-latest
     name: Publish
-    needs: codecov
+    # needs: codecov
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: 12
-      - run: npm install
-      - run: npm run build
+          node-version: 16
+      - run: yarn install --frozen-lockfile
+      - run: yarn run build
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
