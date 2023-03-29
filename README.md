@@ -1,3 +1,4 @@
+[![codecov](https://codecov.io/gh/xavidop/ask-sdk-mongodb-persistence-adapter/branch/main/graph/badge.svg?token=C8KSGME1OG)](https://codecov.io/gh/xavidop/ask-sdk-mongodb-persistence-adapter)
 ![.github/workflows/main.yml](https://github.com/xavidop/ask-sdk-mongodb-persistence-adapter/workflows/.github/workflows/main.yml/badge.svg?branch=main)
 [![npm version](https://img.shields.io/npm/v/ask-sdk-mongodb-persistence-adapter.svg)](https://npmjs.org/package/ask-sdk-mongodb-persistence-adapter)
 [![npm license](https://img.shields.io/npm/l/ask-sdk-mongodb-persistence-adapter.svg)](https://npmjs.org/package/ask-sdk-mongodb-persistence-adapter)
@@ -5,7 +6,6 @@
 ![npm](https://img.shields.io/npm/dt/ask-sdk-mongodb-persistence-adapter)
 [![Docs](https://api.netlify.com/api/v1/badges/70685902-9413-4842-8a33-7eaf1db4f132/deploy-status)](https://ask-sdk-mongodb-persistence-adapter.netlify.app/)
 [![GitHub issues](https://img.shields.io/github/issues/xavidop/ask-sdk-mongodb-persistence-adapter)](https://github.com/xavidop/ask-sdk-mongodb-persistence-adapter/issues)
-![David](https://img.shields.io/david/xavidop/ask-sdk-mongodb-persistence-adapter)
 
 ASK SDK MongoDB Persistence Adapter package contains implementation of persistence adapter in Core SDK ('ask-sdk-core') based on AWS SDK.
 
