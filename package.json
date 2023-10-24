@@ -23,7 +23,7 @@
     "SDK"
   ],
   "dependencies": {
-    "mongodb": "^3.6.3"
+    "mongodb": "^3.7.4"
   },
   "peerDependencies": {
     "ask-sdk-core": "^2.0.0"
