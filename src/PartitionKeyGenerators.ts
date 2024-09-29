@@ -11,7 +11,7 @@
  */
 
 import { createAskSdkError } from 'ask-sdk-core';
-import { RequestEnvelope } from 'ask-sdk-model';
+import { Device, interfaces, RequestEnvelope, User } from 'ask-sdk-model';
 
 /**
  * Type definition of function used by {@link MongoDbPersistenceAdapter} to extract attributes id from {@link RequestEnvelope}.
@@ -32,15 +32,15 @@ export const PartitionKeyGenerators = {
             return false;
         }
     },
-    getSystem(requestEnvelope: RequestEnvelope): any{
+    getSystem(requestEnvelope: RequestEnvelope): interfaces.system.SystemState{
         return requestEnvelope.context.System;
 
     },
-    getSystemUser(requestEnvelope: RequestEnvelope): any{
+    getSystemUser(requestEnvelope: RequestEnvelope): User{
         return PartitionKeyGenerators.getSystem(requestEnvelope).user;
 
     },
-    getSystemDevice(requestEnvelope: RequestEnvelope): any{
+    getSystemDevice(requestEnvelope: RequestEnvelope): Device | undefined{
         return PartitionKeyGenerators.getSystem(requestEnvelope).device;
 
     },
@@ -74,11 +74,11 @@ export const PartitionKeyGenerators = {
     deviceId(requestEnvelope: RequestEnvelope): string {
         if (!(PartitionKeyGenerators.checkSystemExists(requestEnvelope)
               && PartitionKeyGenerators.getSystemDevice(requestEnvelope)
-              && PartitionKeyGenerators.getSystemDevice(requestEnvelope).deviceId)) {
+              && PartitionKeyGenerators.getSystemDevice(requestEnvelope)?.deviceId)) {
             PartitionKeyGenerators.throwException('device id');
         }
 
-        return PartitionKeyGenerators.getSystemDevice(requestEnvelope).deviceId;
+        return PartitionKeyGenerators.getSystemDevice(requestEnvelope)!.deviceId;
     },
 
     /**
