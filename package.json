@@ -2,19 +2,36 @@
   "name": "ask-sdk-mongodb-persistence-adapter",
   "version": "1.0.4",
   "description": "MongoDB based implementation package of PersistenceAdapter interface for Node.js",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "type": "module",
+  "main": "lib/cjs/index.js",
+  "module": "./lib/esm/index.mjs",
+  "types": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./lib/cjs/index.js",
+      "default": "./lib/cjs/index.js",
+      "import": "./lib/esm/index.mjs",
+      "types": "./lib/cjs/index.d.ts"
+    }
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "provenance": true,
+    "access": "public"
+  },
   "scripts": {
-    "build": "tsc && npm run lint",
-    "compile": "tsc",
-    "test": "cross-env TS_NODE_FILES=true jest --forceExit",
-    "lint": "eslint \"lib/**/*.{ts,tsx}\" \"tst/**/*.{ts,tsx}\"",
-    "lint-fix": "eslint \"lib/**/*.{ts,tsx}\" \"tst/**/*.{ts,tsx}\" --fix",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esm": "tsc -p tsconfig.esm.json && yarn run rename:esm",
+    "rename:esm": "./scripts/fix-mjs.sh",
+    "build": "yarn run build:cjs && yarn run build:esm",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
     "clean": "rm -rf ./dist",
-    "reinstall": "rm -rf ./node_modules && npm install",
-    "coverage": "nyc --clean jest --forceExit --coverage --reporter=text-lcov",
-    "codecov": "codecov coverage/lcov.info",
-    "doc": "typedoc"
+    "reinstall": "rm -rf ./node_modules && yarn install",
+    "doc": "typedoc ./src/index.ts --out ./docs --tsconfig ./tsconfig.esm.json",
+    "docs": "yarn run doc"
   },
   "author": "Xavier Portilla Edo",
   "license": "Apache-2.0",
@@ -23,37 +40,20 @@
     "SDK"
   ],
   "dependencies": {
-    "mongodb": "^4.17.2"
+    "mongodb": "^6.0.0"
   },
   "peerDependencies": {
     "ask-sdk-core": "^2.0.0"
   },
   "devDependencies": {
-    "@shelf/jest-mongodb": "^2.2.1",
-    "@types/chai": "^5.0.0",
-    "@types/jest": "^26.0.19",
-    "@types/mongodb": "^3.6.3",
     "@types/node": "^22.7.4",
-    "@typescript-eslint/eslint-plugin": "^4.10.0",
-    "@typescript-eslint/parser": "^4.10.0",
+    "typescript-eslint": "^8.2.0",
     "ask-sdk-core": "^2.10.0",
     "ask-sdk-model": "^1.29.0",
-    "chai": "^5.1.1",
-    "codecov": "^3.6.5",
-    "cross-env": "^7.0.3",
-    "eslint": "^7.16.0",
+    "eslint": "^9.11.0",
     "eslint-plugin-tsdoc": "^0.3.0",
-    "jest": "^26.6.3",
-    "nyc": "^17.1.0",
-    "ts-jest": "^26.4.4",
     "typedoc": "^0.26.7",
-    "typescript": "^4.1.2"
-  },
-  "config": {
-    "mongodbMemoryServer": {
-      "version": "latest",
-      "debug": "0"
-    }
+    "typescript": "^5.0.0"
   },
   "repository": "github:xavidop/ask-sdk-mongodb-persistence-adapter",
   "bugs": "https://github.com/xavidop/ask-sdk-mongodb-persistence-adapter/issues",

@@ -10,8 +10,8 @@
  * permissions and limitations under the License.
  */
 
-export { MongoDBPersistenceAdapter } from './attributes/persistence/MongoDbPersistenceAdapter';
+export { MongoDBPersistenceAdapter } from './MongoDbPersistenceAdapter';
 export {
     PartitionKeyGenerator,
     PartitionKeyGenerators
-} from './attributes/persistence/PartitionKeyGenerators';
+} from './PartitionKeyGenerators';

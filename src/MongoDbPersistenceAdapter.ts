@@ -9,28 +9,29 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 
 import {
     createAskSdkError,
-    PersistenceAdapter
+    PersistenceAdapter,
 } from 'ask-sdk-core';
 import { RequestEnvelope } from 'ask-sdk-model';
-import { Db, MongoClient } from 'mongodb';
+import { Db, DeleteResult, MongoClient, UpdateResult, Document } from 'mongodb';
 import {
     PartitionKeyGenerator,
     PartitionKeyGenerators
 } from './PartitionKeyGenerators';
 
 /**
- * Implementation of {@link PersistenceAdapter} using MongoDB.
+ * Implementation of PersistenceAdapter using MongoDB.
  */
 export class MongoDBPersistenceAdapter implements PersistenceAdapter {
     protected collectionName: string;
-    protected databaseName: string;
-    protected mongoURI: string;
-    protected mongoDBClient: MongoClient;
+    protected databaseName: string | undefined;
+    protected mongoURI: string | undefined;
+    protected mongoDBClient: MongoClient | undefined;
     protected partitionKeyGenerator: PartitionKeyGenerator;
-    protected mongoDB: Db;
+    protected mongoDB: Db | undefined;
 
     constructor(config: {
         collectionName: string,
@@ -49,9 +50,9 @@ export class MongoDBPersistenceAdapter implements PersistenceAdapter {
 
     private async getMongoDBClient() {
         if (!this.mongoDBClient){
-            this.mongoDBClient = await MongoClient.connect(this.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+            this.mongoDBClient = await MongoClient.connect(this.mongoURI!);
         } else {
-            if (!this.mongoDBClient.isConnected()) {
+            if (!this.mongoDB) {
                 await this.mongoDBClient.connect();
             }
         }
@@ -68,7 +69,7 @@ export class MongoDBPersistenceAdapter implements PersistenceAdapter {
         const attributesId = this.partitionKeyGenerator(requestEnvelope);
         await this.getMongoDBClient();
 
-        const data = await this.mongoDB.collection(this.collectionName).findOne<{ attributes: Record<string, any> }>({ id: attributesId });
+        const data = await this.mongoDB!.collection(this.collectionName).findOne<{ attributes: Record<string, any> }>({ id: attributesId });
 
         if (!data) {
             return {};
@@ -88,7 +89,7 @@ export class MongoDBPersistenceAdapter implements PersistenceAdapter {
         const attributesId = this.partitionKeyGenerator(requestEnvelope);
         await this.getMongoDBClient();
 
-        const saved = await this.mongoDB.collection(this.collectionName).updateOne({ id: attributesId }, { $set: { id: attributesId, attributes } }, { upsert: true });
+        const saved = await this.mongoDB!.collection(this.collectionName).updateOne({ id: attributesId }, { $set: { id: attributesId, attributes } }, { upsert: true });
 
         this.checkResult(saved, attributesId);
     }
@@ -102,13 +103,13 @@ export class MongoDBPersistenceAdapter implements PersistenceAdapter {
         const attributesId = this.partitionKeyGenerator(requestEnvelope);
         await this.getMongoDBClient();
 
-        const deleted = await this.mongoDB.collection(this.collectionName).deleteOne({ id: attributesId });
+        const deleted = await this.mongoDB!.collection(this.collectionName).deleteOne({ id: attributesId });
 
         this.checkResult(deleted, attributesId);
     }
 
-    private checkResult(data, attributesId) {
-        if (!data.result.ok) {
+    private checkResult(data: UpdateResult<Document> | DeleteResult, attributesId: string) {
+        if (!data.acknowledged) {
             throw createAskSdkError(this.constructor.name, `Could not delete item (${attributesId}) to table (${this.collectionName})`);
         }
     }
