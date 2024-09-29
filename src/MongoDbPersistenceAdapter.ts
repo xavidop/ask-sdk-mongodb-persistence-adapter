@@ -13,7 +13,7 @@
 
 import {
     createAskSdkError,
-    PersistenceAdapter
+    PersistenceAdapter,
 } from 'ask-sdk-core';
 import { RequestEnvelope } from 'ask-sdk-model';
 import { Db, DeleteResult, MongoClient, UpdateResult, Document } from 'mongodb';
@@ -23,7 +23,7 @@ import {
 } from './PartitionKeyGenerators';
 
 /**
- * Implementation of {@link PersistenceAdapter} using MongoDB.
+ * Implementation of PersistenceAdapter using MongoDB.
  */
 export class MongoDBPersistenceAdapter implements PersistenceAdapter {
     protected collectionName: string;

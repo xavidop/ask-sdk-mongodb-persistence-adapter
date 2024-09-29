@@ -14,7 +14,8 @@ import { createAskSdkError } from 'ask-sdk-core';
 import { Device, interfaces, RequestEnvelope, User } from 'ask-sdk-model';
 
 /**
- * Type definition of function used by {@link MongoDbPersistenceAdapter} to extract attributes id from {@link RequestEnvelope}.
+ * Type definition of function used by {@link MongoDBPersistenceAdapter} to extract attributes id.
+ * @typeParam { RequestEnvelope } requestEnvelope - Request envelope object.
  */
 export type PartitionKeyGenerator = (requestEnvelope: RequestEnvelope) => string;
 

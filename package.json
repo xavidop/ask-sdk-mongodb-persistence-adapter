@@ -30,7 +30,8 @@
     "lint:fix": "eslint src/ --fix",
     "clean": "rm -rf ./dist",
     "reinstall": "rm -rf ./node_modules && yarn install",
-    "doc": "typedoc"
+    "doc": "typedoc ./src/index.ts --out ./docs --tsconfig ./tsconfig.esm.json",
+    "docs": "yarn run doc"
   },
   "author": "Xavier Portilla Edo",
   "license": "Apache-2.0",
