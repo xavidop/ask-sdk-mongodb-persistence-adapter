@@ -1063,21 +1063,21 @@ array-unique@^0.3.2:
   integrity sha512-SleRWjh9JUud2wH1hPs9rZBZ33H6T9HOiL0uwGnGx9FpE6wKGyfWugmbkEOIs6qWrZhg0LWeLziLrEwQJhs5mQ==
 
 ask-sdk-core@^2.10.0:
-  version "2.12.1"
-  resolved "https://registry.yarnpkg.com/ask-sdk-core/-/ask-sdk-core-2.12.1.tgz#ac09877a904b9b7d86a9fc6948cd1af49fad8750"
-  integrity sha512-2fT7XkHfuI0I6g12Y4mztgzmz7SwrKli8Z2p+eut1dVk8t5BHxWVXZCOVI5GVhW0DJbWwhjPSfOTAZX+zPoKEA==
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/ask-sdk-core/-/ask-sdk-core-2.14.0.tgz#85fce330b513fdb6c3827f47f0795288f2ca96d6"
+  integrity sha512-G2yEKbY+XYTFzJXGRpsg7xJHqqgBcgnKEgklXUMRWRFv10gwHgtWDLLlBV6h4IdysTx782rCVJK/UcHcaGbEpA==
   dependencies:
-    ask-sdk-runtime "^2.12.0"
+    ask-sdk-runtime "^2.14.0"
 
 ask-sdk-model@^1.29.0:
   version "1.61.0"
   resolved "https://registry.yarnpkg.com/ask-sdk-model/-/ask-sdk-model-1.61.0.tgz#4d11300c50a10993f67a64f99d10a5ceddd3f016"
   integrity sha512-Z2BTwKm7DAKOwFKay+a5sCf6kH9EOVEE0gl8ywpJv4fuf5SGnjFFtLM+BKLuhpdpQMaVun5H+7bULp654lBekQ==
 
-ask-sdk-runtime@^2.12.0:
-  version "2.12.0"
-  resolved "https://registry.yarnpkg.com/ask-sdk-runtime/-/ask-sdk-runtime-2.12.0.tgz#e4b06467a2545ad9fec07379027184374030df38"
-  integrity sha512-5vNTQCjWVnT74Aa39gqBAm3Gvwald0Uu4B1IU4mPTCbBzqEM1XkXkhIc8CWXQOuK7S2SsebjAHEBinrZo+T6lQ==
+ask-sdk-runtime@^2.14.0:
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/ask-sdk-runtime/-/ask-sdk-runtime-2.14.0.tgz#ac28baf04802c1b0f4961cdb0d805d136f97fa01"
+  integrity sha512-a96pPs1RU3GgXBHplqAVqh2uxEuSYjTD5+XSbHsf6Fz4KhHpgaxJogOIIybjA6O/d1B9sG+6bjHJGzxBJEcccA==
 
 assertion-error@^1.1.0:
   version "1.1.0"
