@@ -45,7 +45,6 @@
     "ask-sdk-core": "^2.0.0"
   },
   "devDependencies": {
-    "@types/mongodb": "^4.0.0",
     "@types/node": "^22.7.4",
     "typescript-eslint": "^8.2.0",
     "ask-sdk-core": "^2.10.0",
