@@ -10,91 +10,101 @@
  * permissions and limitations under the License.
  */
 
-import { createAskSdkError } from 'ask-sdk-core';
-import { Device, interfaces, RequestEnvelope, User } from 'ask-sdk-model';
+import { createAskSdkError } from "ask-sdk-core";
+import { Device, interfaces, RequestEnvelope, User } from "ask-sdk-model";
 
 /**
  * Type definition of function used by {@link MongoDBPersistenceAdapter} to extract attributes id.
  * @typeParam { RequestEnvelope } requestEnvelope - Request envelope object.
  */
-export type PartitionKeyGenerator = (requestEnvelope: RequestEnvelope) => string;
+export type PartitionKeyGenerator = (
+  requestEnvelope: RequestEnvelope,
+) => string;
 
 /**
  * Object containing implementations of {@link PartitionKeyGenerator}.
  */
 export const PartitionKeyGenerators = {
+  checkSystemExists(requestEnvelope: RequestEnvelope): boolean {
+    if (
+      requestEnvelope &&
+      requestEnvelope.context &&
+      requestEnvelope.context.System
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+  getSystem(requestEnvelope: RequestEnvelope): interfaces.system.SystemState {
+    return requestEnvelope.context.System;
+  },
+  getSystemUser(requestEnvelope: RequestEnvelope): User {
+    return PartitionKeyGenerators.getSystem(requestEnvelope).user;
+  },
+  getSystemDevice(requestEnvelope: RequestEnvelope): Device | undefined {
+    return PartitionKeyGenerators.getSystem(requestEnvelope).device;
+  },
+  throwException(partitionUsed: string): void {
+    throw createAskSdkError(
+      "PartitionKeyGenerators",
+      `Cannot retrieve ${partitionUsed} from request envelope!`,
+    );
+  },
 
-    checkSystemExists(requestEnvelope: RequestEnvelope): boolean{
-        if (requestEnvelope
-            && requestEnvelope.context
-            && requestEnvelope.context.System){
-            return true;
-        } else {
-            return false;
-        }
-    },
-    getSystem(requestEnvelope: RequestEnvelope): interfaces.system.SystemState{
-        return requestEnvelope.context.System;
+  /**
+   * Gets attributes id using user id.
+   * @param {RequestEnvelope} requestEnvelope
+   * @returns {string}
+   */
+  userId(requestEnvelope: RequestEnvelope): string {
+    if (
+      !(
+        PartitionKeyGenerators.checkSystemExists(requestEnvelope) &&
+        PartitionKeyGenerators.getSystemUser(requestEnvelope) &&
+        PartitionKeyGenerators.getSystemUser(requestEnvelope).userId
+      )
+    ) {
+      PartitionKeyGenerators.throwException("user id");
+    }
 
-    },
-    getSystemUser(requestEnvelope: RequestEnvelope): User{
-        return PartitionKeyGenerators.getSystem(requestEnvelope).user;
+    return PartitionKeyGenerators.getSystemUser(requestEnvelope).userId;
+  },
 
-    },
-    getSystemDevice(requestEnvelope: RequestEnvelope): Device | undefined{
-        return PartitionKeyGenerators.getSystem(requestEnvelope).device;
+  /**
+   * Gets attributes id using device id.
+   * @param {RequestEnvelope} requestEnvelope
+   * @returns {string}
+   */
+  deviceId(requestEnvelope: RequestEnvelope): string {
+    if (
+      !(
+        PartitionKeyGenerators.checkSystemExists(requestEnvelope) &&
+        PartitionKeyGenerators.getSystemDevice(requestEnvelope) &&
+        PartitionKeyGenerators.getSystemDevice(requestEnvelope)?.deviceId
+      )
+    ) {
+      PartitionKeyGenerators.throwException("device id");
+    }
 
-    },
-    throwException(partitionUsed: string): void{
-        throw createAskSdkError(
-            'PartitionKeyGenerators',
-            `Cannot retrieve ${partitionUsed} from request envelope!`,
-        );
-    },
+    return PartitionKeyGenerators.getSystemDevice(requestEnvelope)!.deviceId;
+  },
 
-    /**
-     * Gets attributes id using user id.
-     * @param {RequestEnvelope} requestEnvelope
-     * @returns {string}
-     */
-    userId(requestEnvelope: RequestEnvelope): string {
-        if (!(PartitionKeyGenerators.checkSystemExists(requestEnvelope)
-              && PartitionKeyGenerators.getSystemUser(requestEnvelope)
-              && PartitionKeyGenerators.getSystemUser(requestEnvelope).userId)) {
-            PartitionKeyGenerators.throwException('user id');
-        }
+  /**
+   * Gets attributes id using person id.
+   * Fallback to fetching attributes id using user id, if personId is not present.
+   * @param {RequestEnvelope} requestEnvelope
+   * @returns {string}
+   */
+  personId(requestEnvelope: RequestEnvelope): string {
+    if (
+      PartitionKeyGenerators.checkSystemExists(requestEnvelope) &&
+      requestEnvelope.context.System.person &&
+      requestEnvelope.context.System.person.personId
+    ) {
+      return requestEnvelope.context.System.person.personId;
+    }
 
-        return PartitionKeyGenerators.getSystemUser(requestEnvelope).userId;
-    },
-
-    /**
-     * Gets attributes id using device id.
-     * @param {RequestEnvelope} requestEnvelope
-     * @returns {string}
-     */
-    deviceId(requestEnvelope: RequestEnvelope): string {
-        if (!(PartitionKeyGenerators.checkSystemExists(requestEnvelope)
-              && PartitionKeyGenerators.getSystemDevice(requestEnvelope)
-              && PartitionKeyGenerators.getSystemDevice(requestEnvelope)?.deviceId)) {
-            PartitionKeyGenerators.throwException('device id');
-        }
-
-        return PartitionKeyGenerators.getSystemDevice(requestEnvelope)!.deviceId;
-    },
-
-    /**
-     * Gets attributes id using person id.
-     * Fallback to fetching attributes id using user id, if personId is not present.
-     * @param {RequestEnvelope} requestEnvelope
-     * @returns {string}
-     */
-    personId(requestEnvelope: RequestEnvelope): string {
-        if (PartitionKeyGenerators.checkSystemExists(requestEnvelope)
-              && requestEnvelope.context.System.person
-              && requestEnvelope.context.System.person.personId) {
-            return requestEnvelope.context.System.person.personId;
-        }
-
-        return PartitionKeyGenerators.userId(requestEnvelope);
-    },
+    return PartitionKeyGenerators.userId(requestEnvelope);
+  },
 };

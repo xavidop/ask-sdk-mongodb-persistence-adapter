@@ -28,7 +28,9 @@
     "build": "yarn run build:cjs && yarn run build:esm",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
-    "clean": "rm -rf ./dist",
+    "clean": "rimraf ./lib",
+    "prepack": "npm run clean && npm run build",
+    "prettier": "prettier 'src/**/*.ts' --write",
     "reinstall": "rm -rf ./node_modules && yarn install",
     "doc": "typedoc ./src/index.ts --out ./docs --tsconfig ./tsconfig.esm.json",
     "docs": "yarn run doc"
@@ -47,15 +49,20 @@
   },
   "devDependencies": {
     "@types/node": "^22.7.4",
-    "typescript-eslint": "^8.2.0",
     "ask-sdk-core": "^2.10.0",
     "ask-sdk-model": "^1.29.0",
     "eslint": "^9.11.0",
     "eslint-plugin-tsdoc": "^0.3.0",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
     "typedoc": "^0.26.7",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "typescript-eslint": "^8.2.0"
   },
-  "repository": "github:xavidop/ask-sdk-mongodb-persistence-adapter",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xavidop/ask-sdk-mongodb-persistence-adapter.git"
+  },
   "bugs": "https://github.com/xavidop/ask-sdk-mongodb-persistence-adapter/issues",
   "homepage": "https://github.com/xavidop/ask-sdk-mongodb-persistence-adapter#readme"
 }
