@@ -1138,9 +1138,9 @@ ask-sdk-core@^2.10.0:
     ask-sdk-runtime "^2.14.0"
 
 ask-sdk-model@^1.29.0:
-  version "1.61.0"
-  resolved "https://registry.yarnpkg.com/ask-sdk-model/-/ask-sdk-model-1.61.0.tgz#4d11300c50a10993f67a64f99d10a5ceddd3f016"
-  integrity sha512-Z2BTwKm7DAKOwFKay+a5sCf6kH9EOVEE0gl8ywpJv4fuf5SGnjFFtLM+BKLuhpdpQMaVun5H+7bULp654lBekQ==
+  version "1.86.0"
+  resolved "https://registry.yarnpkg.com/ask-sdk-model/-/ask-sdk-model-1.86.0.tgz#fb38ead3f9fcf34e74b8ba1c2ebcb1122daf49d0"
+  integrity sha512-JmC5mypPBz5Q1Yx1WyeAr2Q/z2Cjm98EjLjTlYAolXF4gokU7fDDjeOAyAD5dkyHjyGLeCEvlC0MJYWFwc84dw==
 
 ask-sdk-runtime@^2.14.0:
   version "2.14.0"
