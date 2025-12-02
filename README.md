@@ -29,7 +29,7 @@ You can find all the documentation [here](https://ask-sdk-mongodb-persistence-ad
 
 How to create a instance of `MongoDBPersistenceAdapter` and `PartitionKeyGenerator`:
 
-1. Passing the MongoDB URL connection as a parameter:
+1. Passing the MongoDB URL connection as a parameter: 
 
 ```javascript
 let { MongoDBPersistenceAdapter, PartitionKeyGenerators } = require('ask-sdk-mongodb-persistence-adapter');
