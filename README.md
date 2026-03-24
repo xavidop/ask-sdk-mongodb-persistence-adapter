@@ -9,6 +9,7 @@
 
 ASK SDK MongoDB Persistence Adapter package contains implementation of persistence adapter in Core SDK ('ask-sdk-core') based on AWS SDK.
 
+
 ![image](media/image.jpg)
 
 
