@@ -15,6 +15,7 @@ ASK SDK MongoDB Persistence Adapter package contains implementation of persisten
 
 ## What is ASK SDK MongoDB Persistence Adapter
 
+
 The ASK SDK v2 for Node.js is an open-source Alexa CustomSkill Development Kit. ASK SDK v2 for Node.js makes it easier for you to build highly engaging skills, by allowing you to spend more time on implementing features and less on writing boiler-plate code. 
 
 ## Installing
